@@ -2,6 +2,7 @@
 using Model.Models;
 using OnlineCourse.Common;
 using OnlineCourse.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,9 +34,13 @@ namespace OnlineCourse.Controllers
             {
                 var dao = new UserDao();
                 var result = dao.Login(model.UserName, Encryptor.MD5Hash(model.Password), true);
-
+                
                 if (result == 1)
                 {
+                    Log.Error("Login error test");
+                    Log.Information("Login");
+
+
                     var user = dao.GetByUserName(model.UserName);
                     var usersession = SetUserSession(user);
                     usersession.Address = user.Address;
